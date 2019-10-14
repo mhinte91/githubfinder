@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import CircleSelector from './components/CircleSelector/CircleSelector';
+import Circles from './components/Circles/Circles';
 
 const choices = [0, 1, 2, 3];
 
@@ -24,6 +25,7 @@ class App extends Component {
             choiceButton={this.state.selected}
             handleClick={this.handleClick}
           />
+          <Circles choices={choices} choiceCircle={this.state.selected} />
         </main>
       </div>
     );

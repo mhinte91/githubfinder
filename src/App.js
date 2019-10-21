@@ -8,12 +8,12 @@ import Search from './components/users/Search';
 import About from './components/pages/About';
 import axios from 'axios';
 import './App.css';
-import { timingSafeEqual } from 'crypto';
 
 class App extends Component {
   state = {
     users: [],
     user: {},
+    repos: [],
     loading: false,
     alert: null
   };
@@ -37,6 +37,16 @@ class App extends Component {
     this.setState({ user: res.data, loading: false });
   };
 
+  // Get user's repos
+  getUserRepos = async username => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    this.setState({ repos: res.data, loading: false });
+  };
+
   // Clear Github users
   clearUsers = () => this.setState({ users: [], loading: false });
 
@@ -48,7 +58,7 @@ class App extends Component {
   };
 
   render() {
-    const { loading, users, user } = this.state;
+    const { loading, users, user, repos } = this.state;
 
     return (
       <Router>
@@ -80,7 +90,9 @@ class App extends Component {
                   <User
                     {...props}
                     getUser={this.getUser}
+                    getUserRepos={this.getUserRepos}
                     user={user}
+                    repos={repos}
                     loading={loading}
                   />
                 )}

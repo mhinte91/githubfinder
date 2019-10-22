@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
+  // replaces componentDidMount
   useEffect(() => {
     getUser(match.params.login);
     getUserRepos(match.params.login);
